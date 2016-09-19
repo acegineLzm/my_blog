@@ -1,0 +1,17 @@
+{% extends '__base__.html' %} {% block title %}Blogs{% endblock %} {% block content %}
+<div class="blog-header">
+    <h1 class="blog-title">鲁子铭的Blog</h1>
+    <p class="lead blog-description">技术沉淀生活</p>
+</div>
+
+<div>
+    {% for blog in blogs %}
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{ blog.name }}</h2>
+        <p class="blog-post-meta">发表于{{ blog.created_at|datetime }}</p>
+        <p>{{ blog.summary }}</p>
+        <p><a href="/blog/{{ blog.id }}">继续阅读 <i class="glyphicon glyphicon-chevron-down"></i></a></p>
+    </div>
+    <hr class="blog-article-divider"> {% endfor %}
+</div>
+{% endblock %}

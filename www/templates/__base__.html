@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"> {% block meta %}
+    <!-- block meta -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - Lzm Blog</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="/static/css/blog.css" rel="stylesheet"> {% block beforehead %}
+    <!-- before head -->{% endblock %}
+</head>
+
+<body>
+    <div class="blog-masthead">
+        <div class="container">
+            <nav class="blog-nav">
+                <a class="blog-nav-item active" href="#">Home</a>
+                <a class="blog-nav-item" href="#">About</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                <!-- content -->
+                {% block content %} {% endblock %}
+                <!-- // content -->
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
