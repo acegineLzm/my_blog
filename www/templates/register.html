@@ -1,0 +1,95 @@
+{% extends '__base__.html' %} {% block title %}Register{% endblock %} {% block beforehead %}
+<script>
+    $(function() {
+        $("#register_form").validate({
+            rules: {
+                username: "required",
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                rpassword: {
+                    required: true,
+                    equalTo: "#register_password"
+                },
+                email: {
+                    required: true,
+                    email: true,
+                }
+            },
+            messages: {
+                username: "Enter a username",
+                password: {
+                    required: "Provide a password",
+                    minlength: jQuery.validator.format("Enter at least {0} characters")
+                },
+                rpassword: {
+                    required: "Repeat your password",
+                    minlength: jQuery.validator.format("Enter at least {0} characters"),
+                    equalTo: "Enter the same password as above"
+                },
+                email: {
+                    required: "Enter a email address",
+                    email: "Please enter a valid email address"
+                }
+            }
+        });
+        $("#register_btn").click(function() {
+            alert("submitted");
+        });
+    });
+</script>
+<style class="text/css">
+    .form {
+        background: rgba(255, 255, 255, 0.2);
+        width: 600px;
+        margin: 50px auto;
+    }
+
+    .fa {
+        display: inline-block;
+        top: 29px;
+        left: 6px;
+        position: relative;
+        color: #ccc;
+    }
+
+    .form-control {
+        padding-left: 32px;
+    }
+</style>
+{% endblock %} {% block content %}
+<!-- Top content -->
+<div class="container">
+    <div class="form row">
+        <center>
+            <h3 class="from-title">Welcome Sign</h3>
+        </center>
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form">
+            <div class="col-sm-9 col-md-9">
+                <div class="form-group">
+                    <i class="fa fa-user fa-lg"></i>
+                    <input class="form-control required" type="text" placeholder="Username" name="username" autofocus="autofocus" />
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-lock fa-lg"></i>
+                    <input class="form-control required" type="password" placeholder="Password" id="register_password" name="password" />
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-check fa-lg"></i>
+                    <input class="form-control required" type="password" placeholder="Re-type Your Password" name="rpassword" />
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-envelope fa-lg"></i>
+                    <input class="form-control eamil" type="text" placeholder="Email" name="email" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success pull-right" id="register_btn">Go</button>
+                    <button type="submit" class="btn btn-info pull-left" id="back_btn">Back</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
