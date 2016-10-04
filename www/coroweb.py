@@ -2,7 +2,7 @@ import asyncio, os, inspect, logging, functools
 
 from urllib import parse
 from aiohttp import web
-#from apis import APIERROR
+from apis import APIError
 
 def get(path):
     '''
@@ -102,7 +102,7 @@ class RequestHandler(object):
                 if qs:
                     kw = dict()
                     for k,v in parse.parse_qs(qs, True).items():
-                        kw[k] = v [0]
+                        kw[k] = v[0]
         if kw is None:
             kw = dict(**request.match_info)
         else:

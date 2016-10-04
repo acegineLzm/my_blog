@@ -1,5 +1,9 @@
 {% extends '__base__.html' %} {% block title %}Register{% endblock %} {% block beforehead %}
 <script>
+    $.validator.addMethod("isEmail", function(value, element) {
+        var reg = /^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$/;
+        return this.optional(element) || (reg.test(value));
+    }, "Please enter a valid email address");
     $(function() {
         $("#register_form").validate({
             rules: {
@@ -14,7 +18,7 @@
                 },
                 email: {
                     required: true,
-                    email: true,
+                    isEmail: true,
                 }
             },
             messages: {
@@ -32,60 +36,133 @@
                     required: "Enter a email address",
                     email: "Please enter a valid email address"
                 }
+            },
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent().next())
+            },
+            submitHandler: function(form) {
+                $("#register_btn").click(function(event) {
+                    event.preventDefault();
+                    var data = {};
+                    data['name'] = $('#username').val();
+                    data['passwd'] = CryptoJS.SHA1($('#register_password').val()).toString()
+                    data['email'] = $('#email').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: "/api/users",
+                        data: JSON.stringify(data),
+                        contentType: 'application/json; charset=UTF-8',
+                        dataType: 'json',
+                        success: function(data) {
+                            //return location.assign('/');
+                        }
+                    });
+                });
             }
-        });
-        $("#register_btn").click(function() {
-            alert("submitted");
         });
     });
 </script>
 <style class="text/css">
     .form {
-        background: rgba(255, 255, 255, 0.2);
         width: 600px;
         margin: 50px auto;
     }
 
-    .fa {
-        display: inline-block;
-        top: 29px;
-        left: 6px;
-        position: relative;
-        color: #ccc;
+    .from-title {
+        margin-bottom: 40px;
+        text-align: center;
     }
 
-    .form-control {
-        padding-left: 32px;
+    .form-group .btn {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .status {
+        height: 20px;
+    }
+
+    .add-on {
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        border: 1px solid #ccc;
+        margin-right: -5px;
+        border-radius: 4px 0 0 4px;
+        width: 34px;
+        height: 34px;
+        background: none;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 34px;
+    }
+
+    input {
+        width: calc(100% - 34px);
+        height: 34px;
+        padding: 4px 12px;
+        box-sizing: border-box;
+        font-size: 14px;
+        border-radius: 0 4px 4px 0;
+        border: 1px solid #cccccc;
+    }
+
+    input.error {
+        border: 1px solid red;
+    }
+
+    label.error {
+        padding-left: 34px;
+        font-weight: bold;
+        font-size: 15px;
+        color: #EA5200;
     }
 </style>
 {% endblock %} {% block content %}
 <!-- Top content -->
 <div class="container">
     <div class="form row">
-        <center>
-            <h3 class="from-title">Welcome Sign</h3>
-        </center>
+        <h3 class="from-title">Welcome Sign</h3>
         <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form">
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
-                    <i class="fa fa-user fa-lg"></i>
-                    <input class="form-control required" type="text" placeholder="Username" name="username" autofocus="autofocus" />
+                    <div>
+                        <span class="add-on">
+                          <i class="fa fa-user"></i>
+                        </span>
+                        <input type="text" placeholder="Username" id="username" name="username" autofocus="autofocus" maxlength="50" />
+                    </div>
+                    <div class="status"></div>
                 </div>
                 <div class="form-group">
-                    <i class="fa fa-lock fa-lg"></i>
-                    <input class="form-control required" type="password" placeholder="Password" id="register_password" name="password" />
+                    <div>
+                        <span class="add-on">
+                          <i class="fa fa-lock"></i>
+                        </span>
+                        <input type="password" placeholder="Password" id="register_password" name="password" maxlength="50" />
+                    </div>
+                    <div class="status"></div>
                 </div>
                 <div class="form-group">
-                    <i class="fa fa-check fa-lg"></i>
-                    <input class="form-control required" type="password" placeholder="Re-type Your Password" name="rpassword" />
+                    <div>
+                        <span class="add-on">
+                          <i class="fa fa-check"></i>
+                        </span>
+                        <input type="password" id="repasswd" placeholder="Re-type Your Password" name="rpassword" maxlength="50" />
+                    </div>
+                    <div class="status"></div>
                 </div>
                 <div class="form-group">
-                    <i class="fa fa-envelope fa-lg"></i>
-                    <input class="form-control eamil" type="text" placeholder="Email" name="email" />
+                    <div>
+                        <span class="add-on">
+                          <i class="fa fa-envelope"></i>
+                        </span>
+                        <input type="text" id="email" placeholder="Email" name="email" maxlength="50" />
+                    </div>
+                    <div class="status"></div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success pull-right" id="register_btn">Go</button>
-                    <button type="submit" class="btn btn-info pull-left" id="back_btn">Back</button>
+                    <button type="submit" class="btn btn-success" id="register_btn">Submit</button>
                 </div>
             </div>
         </form>
