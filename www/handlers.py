@@ -30,13 +30,6 @@ def register():
         '__template__': 'register.html'
     }
 
-@get('/users')
-async def api_get_users(*, page='1'):
-    users = await User.findAll(orderBy='created_at desc')
-    for u in users:
-        u.passwd = '******'
-    return dict(users=users)
-
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$')
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
 
@@ -78,3 +71,15 @@ async def api_register_user(*, name, passwd, email):
     r.content_type = 'application/json'
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
+
+@post('/api/finduser')
+async def api_find_user(*, name='', email=''):
+    user_by_name = user_by_email = []
+    if name != '':
+        user_by_name = await User.findAll('name=?', [name])
+    if email != '':
+        user_by_email = await User.findAll('email=?', [email])
+        print(email, user_by_email)
+    if len(user_by_name) > 0 or len(user_by_email) > 0:
+        return web.Response(text="false")
+    return web.Response(text="true")

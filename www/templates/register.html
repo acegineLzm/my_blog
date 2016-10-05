@@ -7,7 +7,14 @@
     $(function() {
         $("#register_form").validate({
             rules: {
-                username: "required",
+                name: {
+                    required: true,
+                    remote: {
+                        url: "/api/finduser",
+                        type: "post",
+                        dataType: "json",
+                    }
+                },
                 password: {
                     required: true,
                     minlength: 5
@@ -19,10 +26,18 @@
                 email: {
                     required: true,
                     isEmail: true,
+                    remote: {
+                        url: "/api/finduser",
+                        type: "post",
+                        dataType: "json",
+                    }
                 }
             },
             messages: {
-                username: "Enter a username",
+                name: {
+                    required: "Enter a username",
+                    remote: "Name is already in use"
+                },
                 password: {
                     required: "Provide a password",
                     minlength: jQuery.validator.format("Enter at least {0} characters")
@@ -34,30 +49,31 @@
                 },
                 email: {
                     required: "Enter a email address",
-                    email: "Please enter a valid email address"
+                    email: "Please enter a valid email address",
+                    remote: "Email is already in use"
                 }
             },
             errorPlacement: function(error, element) {
                 error.appendTo(element.parent().next())
             },
             submitHandler: function(form) {
-                $("#register_btn").click(function(event) {
-                    event.preventDefault();
-                    var data = {};
-                    data['name'] = $('#username').val();
-                    data['passwd'] = CryptoJS.SHA1($('#register_password').val()).toString()
-                    data['email'] = $('#email').val();
-                    $.ajax({
-                        type: 'POST',
-                        url: "/api/users",
-                        data: JSON.stringify(data),
-                        contentType: 'application/json; charset=UTF-8',
-                        dataType: 'json',
-                        success: function(data) {
-                            //return location.assign('/');
-                        }
-                    });
+                // $("#register_btn").click(function(event) {
+                //     event.preventDefault();
+                var data = {};
+                data['name'] = $('#name').val();
+                data['passwd'] = CryptoJS.SHA1($('#register_password').val()).toString()
+                data['email'] = $('#email').val();
+                $.ajax({
+                    type: 'POST',
+                    url: "/api/users",
+                    data: JSON.stringify(data),
+                    contentType: 'application/json; charset=UTF-8',
+                    dataType: 'json',
+                    success: function(data) {
+                        // return location.assign('/register');
+                    }
                 });
+                // });
             }
         });
     });
@@ -130,7 +146,7 @@
                         <span class="add-on">
                           <i class="fa fa-user"></i>
                         </span>
-                        <input type="text" placeholder="Username" id="username" name="username" autofocus="autofocus" maxlength="50" />
+                        <input type="text" placeholder="Username" id="name" name="name" autofocus="autofocus" maxlength="50" />
                     </div>
                     <div class="status"></div>
                 </div>
