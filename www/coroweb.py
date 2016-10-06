@@ -122,8 +122,6 @@ class RequestHandler(object):
             kw['request'] = request
         # check required kw:
         if self._required_kw_args:
-            print(self._required_kw_args)
-            print(name)
             for name in self._required_kw_args:
                 if not name in kw:
                     return web.HTTPBadRequest('Missing argument: %s' % name)
