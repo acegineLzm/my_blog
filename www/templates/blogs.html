@@ -1,17 +1,43 @@
 {% extends '__base__.html' %} {% block title %}Blogs{% endblock %} {% block content %}
-<div class="blog-header">
-    <h1 class="blog-title">小铭同学的Blog</h1>
-    <p class="lead blog-description">技术沉淀生活</p>
-</div>
-
-<div>
-    {% for blog in blogs %}
-    <div class="blog-post">
-        <h2 class="blog-post-title">{{ blog.name }}</h2>
-        <p class="blog-post-meta">发表于{{ blog.created_at|datetime }}</p>
-        <p>{{ blog.summary }}</p>
-        <p><a href="/blog/{{ blog.id }}">继续阅读 <i class="glyphicon glyphicon-chevron-down"></i></a></p>
+<div class="col-sm-8 blog-main">
+    <div class="blog-header">
+        <h1 class="blog-title">小铭同学</h1>
+        <p class="lead blog-description">“I am just a porter and decorator of nature”</p>
     </div>
-    <hr class="blog-article-divider"> {% endfor %}
+
+    <div>
+        {% for blog in blogs %}
+        <div class="blog-post">
+            <h2 class="blog-post-title">{{ blog.name }}</h2>
+            <p class="blog-post-meta">posted {{ blog.created_at|datetime }}</p>
+            <p>{{ blog.summary }}</p>
+            <p><a href="/blog/{{ blog.id }}">Read more <i class="fa fa-angle-double-right"></i></a></p>
+        </div>
+        <hr class="blog-article-divider"> {% endfor %}
+    </div>
+</div>
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+    <div class="sidebar-serch">
+        <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
+        </div>
+    </div>
+    <div class="sidebar-archive">
+        <h4>Archives</h4>
+        <ol class="list-unstyled">
+            <li>
+                <a href="#">March 2014</a>
+            </li>
+            <li>
+                <a href="#">March 2015</a>
+            </li>
+            <li>
+                <a href="#">March 2016</a>
+            </li>
+        </ol>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,99 @@
+{% extends '__base__.html' %} {% block title %}edit blog{% endblock %} {% block beforehead %}
+
+<style>
+    div.manage-panel,
+    .form {
+        padding-top: 50px;
+    }
+
+    .panel {
+        width: 100px;
+    }
+
+    .btn-circle {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        padding: 10px 15px;
+        font-size: 18px;
+        line-height: 0.9;
+        border-radius: 25px;
+        margin: 0 30px;
+    }
+
+    .button-group {
+        text-align: center;
+    }
+</style>
+
+{% endblock %} {% block content %}
+<div class="manage-panel col-sm-2">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item"><a href="/manage/comments">Comment</a></li>
+            <li class="list-group-item"><a href="/manage/blogs">Blog</a></li>
+            <li class="list-group-item"><a href="/manage/users">User</a></li>
+        </ul>
+    </div>
+</div>
+<!-- <div id="loading" class="center-block">
+    <span><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> 正在加载...</span>
+</div> -->
+<div class="manage-edit col-sm-8" id="div-form-edit">
+    <form class="form" role="form" id="form-edit">
+        <div class="form-group">
+            <label for="name">Title:</label>
+            <input v-model="name" type="text" class="form-control" placeholder="Title..." name="name" autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+            <label for="name">Summary:</label>
+            <textarea v-model="summary" class="form-control" rows="4" placeholder="Summary..." name="summary"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="name">Content:</label>
+            <textarea v-model="content" class="form-control" rows="16" placeholder="Content..." name="content"></textarea>
+        </div>
+        <div class="button-group form-group">
+            <button v-on:click="submit" type="submit" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-ok"></i></button>
+            <button type="button" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+    </form>
+</div>
+
+<script>
+    var ID = '{{ id }}',
+        action = '{{ action }}';
+
+    function initV(blog) {
+        var v = new Vue({
+            el: '#div-form-edit',
+            data: blog,
+            methods: {
+                submit: function(event) {
+                    event.preventDefault();
+                    alert("1234");
+                    $.post(action, this.$data, function(data) {
+                        return location.assign('/api/blogs/' + data.id)
+                    });
+                }
+            }
+        });
+    }
+    $(function() {
+        if (ID) {
+            $.get('/api/blogs/' + ID, function(blog) {
+                initV(blog);
+            });
+        } else {
+            initV({
+                name: '',
+                summary: '',
+                content: ''
+            });
+        }
+    });
+</script>
+
+{% endblock %}

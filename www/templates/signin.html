@@ -34,11 +34,11 @@
                     success: function(data) {
                         location.assign('/');
                     },
-                    error: function (xhr, status, error) {
-                        $("div.status").replaceWith("<p style=\"margin:0px;color:#EA5200;font-size:15px;font-weight:bold;padding-left:34px;\">Wrong username or password.</p>");
+                    error: function(xhr, status, error) {
+                        $("div.status").replaceWith("<p style=\"padding-top:5px;color:#EA5200;font-size:14px;font-weight:bold;padding-left:39px;height:20px\">Wrong username or password.</p>");
                         $("#signin_form")[0].reset();
                         $("input").focus(function() {
-                           $("p").replaceWith("<div class=\"status\"></div>");
+                            $("p").replaceWith("<div class=\"status\"></div>");
                         });
                     }
                 });
@@ -49,34 +49,25 @@
 {% endblock %} {% block content %}
 <!-- Top content -->
 <div class="container">
-    <div class="form row">
-        <h3 class="from-title">Sign in</h3>
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="signin_form">
-            <div class="col-sm-9 col-md-9">
-                <div class="form-group">
-                    <div>
-                        <span class="add-on">
-                          <i class="fa fa-user"></i>
-                        </span>
-                        <input type="text" placeholder="Username or Email" id="nameOrEmail" name="nameOrEmail" autofocus="autofocus" maxlength="50" />
-                    </div>
-                    <div style="height:20px"></div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <span class="add-on">
-                          <i class="fa fa-lock"></i>
-                        </span>
-                        <input type="password" placeholder="Password" id="password" name="password" maxlength="50" />
-                    </div>
-                    <div class="status"></div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success" id="register_btn">Sign in</button>
-                </div>
+    <form class="form col-sm-offset-4 col-sm-4" role="form" id="signin_form">
+        <h3 class="form-title">Sign in</h3>
+        <hr>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" placeholder="Username or Email" id="nameOrEmail" name="nameOrEmail" autofocus="autofocus" maxlength="50" />
             </div>
-        </form>
-    </div>
+            <div style="height:20px"></div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" placeholder="Password" id="password" name="password" maxlength="50" />
+            </div>
+            <div class="status"></div>
+        </div>
+        <button type="submit" class="btn btn-primary center-block" id="register_btn">SIGN IN</button>
+    </form>
 </div>
 
 {% endblock %}
